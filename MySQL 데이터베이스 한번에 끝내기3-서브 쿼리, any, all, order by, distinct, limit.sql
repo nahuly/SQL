@@ -1,0 +1,53 @@
+#서브 쿼리
+SELECT *
+FROM CITY
+WHERE COUNTRYCODE = (   SELECT COUNTRYCODE
+						FROM CITY
+						WHERE NAME = 'SEOUL');
+
+#ANY - 서브쿼리의 여러 개의 결과 중 한 가지만 만족해도 가능(SOME과 동일한 의미, IN구문과 동일함)
+SELECT *
+FROM CITY
+WHERE POPULATION > ANY (   SELECT POPULATION # ANY 말고 SOME 써도 된다
+							FROM CITY
+							WHERE DISTRICT = 'NEW YORK');
+                                                        
+#ALL-서브쿼리 여러 개의 결과를 모두 만족시켜야 함
+SELECT *
+FROM CITY
+WHERE POPULATION > ALL (    SELECT POPULATION
+							FROM CITY
+                            WHERE DISTRICT = 'NEW YORK');
+                            
+# ORDER BY
+SELECT *
+FROM CITY
+ORDER BY POPULATION DESC; # ASC는 디폴트값
+
+SELECT *
+FROM CITY
+ORDER BY COUNTRYCODE, POPULATION DESC;
+
+#Q. 인구수로 내림차순하여 한국에 있는 도시 보기, 국가 면적 크기로 내림차순하여 나라 보기
+
+SELECT *
+FROM CITY
+WHERE COUNTRYCODE = 'KOR'
+ORDER BY POPULATION DESC;
+
+DESC COUNTRY;
+
+SELECT *
+FROM COUNTRY
+ORDER BY SURFACEAREA DESC;
+
+# DISTINCT
+SELECT DISTINCT COUNTRYCODE
+FROM CITY;
+
+#LIMIT
+SELECT *
+FROM CITY
+ORDER BY POPULATION DESC
+LIMIT 10;
+
